@@ -252,6 +252,7 @@ namespace Photon.Pun
         protected internal bool removedFromLocalViewList;
 
         internal MonoBehaviour[] RpcMonoBehaviours;
+        public bool isMine;
 
 
         /// <summary>Called by Unity on start of the application and does a setup the PhotonView.</summary>

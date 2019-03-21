@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     }
      bool AllRunnersFrozen()
     {
+        GameObject[] runners = GameObject.FindGameObjectsWithTag("Runner");
         foreach (GameObject runner in runners)
         {
             if (runner.GetComponent<OnTag>().IsFrozen) return false;

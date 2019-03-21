@@ -15,15 +15,13 @@ public class OnTag : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.GetComponent<OnTag>() == null) return;
-        
-        if (tag == "It" && !collision.gameObject.GetComponent<OnTag>().IsFrozen)
+    {        
+        if (tag == "It" && collision.gameObject.tag == "Runner" && !collision.gameObject.GetComponent<OnTag>().IsFrozen)
         {
             collision.gameObject.GetComponent<OnTag>().IsFrozen = true;
             Debug.Log("Freeze");
         }
-        else if (tag != "It" && collision.gameObject.GetComponent<OnTag>().IsFrozen)
+        else if (tag == "Runner" && collision.gameObject.tag == "Runner" && collision.gameObject.GetComponent<OnTag>().IsFrozen)
         {
             collision.gameObject.GetComponent<OnTag>().IsFrozen = false;
             Debug.Log("Unfreeze");

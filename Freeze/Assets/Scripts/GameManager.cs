@@ -12,11 +12,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     #endregion
 
-    #region private vars
-    private List<GameObject> runners;
-    private GameObject it;
-    #endregion
-
     // Start is called before the first frame update
     void Start()
     {

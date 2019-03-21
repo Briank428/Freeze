@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.singlePlayer || photonView.IsMine)
+        if (photonView.IsMine)
             InputMovement();
         else SyncedMovement();
     }

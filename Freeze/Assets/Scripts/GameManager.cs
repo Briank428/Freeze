@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     #region public vars
-    public bool singlePlayer;
     public float timeLeft = 60f;
     public GameObject runnerPrefab;
     public GameObject itPrefab;

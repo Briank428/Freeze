@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         StartCoroutine("StartGame");
-
     }
 
     public IEnumerator StartGame()

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - It
+  - Runner
   layers:
   - Default
   - TransparentFX

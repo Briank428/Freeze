@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.AI;
+using System.Linq;
 
 public class AIMove : MonoBehaviourPun
 {
@@ -13,6 +14,7 @@ public class AIMove : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
+        players = GameObject.FindGameObjectsWithTag("Runner").ToList();
         agent = this.GetComponent<NavMeshAgent>();
         currentPlayer = players[0];
         agent.SetDestination(currentPlayer.transform.position);

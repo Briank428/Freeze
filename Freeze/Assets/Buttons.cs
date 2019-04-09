@@ -10,6 +10,7 @@ public class Buttons : MonoBehaviour
     public Button tutorialB;
     public Button soundB;
     public Button musicB;
+    public Button exitB;
 
     public Sprite soundOn;
     public Sprite soundOff;
@@ -18,13 +19,15 @@ public class Buttons : MonoBehaviour
 
     public bool music;
     public bool sound;
-    
+
+    void Update() { if (Input.GetKey("escape")) Application.Quit(); }
     void Start()
     {
         lobbyB.onClick.AddListener(Lobby);
         tutorialB.onClick.AddListener(Tutorial);
         soundB.onClick.AddListener(ToggleSound);
         musicB.onClick.AddListener(ToggleMusic);
+        exitB.onClick.AddListener(Application.Quit);
         music = true;
         sound = true;
     }

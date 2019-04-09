@@ -11,6 +11,11 @@ public class Buttons : MonoBehaviour
     public Button soundB;
     public Button musicB;
 
+    public Sprite soundOn;
+    public Sprite soundOff;
+    public Sprite musicOn;
+    public Sprite musicOff;
+
     public bool music;
     public bool sound;
     
@@ -27,13 +32,15 @@ public class Buttons : MonoBehaviour
     public void Tutorial () { SceneManager.LoadScene("Tutorial"); }
     public void ToggleMusic()
     {
-        if (music) music = false;
-        else music = true;
+        if (music) { music = false; musicB.image.sprite = musicOff; }
+        else { music = true; musicB.image.sprite = musicOn; }
+        Debug.Log("Music: " + music);
     }
     public void ToggleSound()
     {
-        if (sound) sound = false;
-        else sound = true;
+        if (sound) { sound = false; soundB.image.sprite = soundOff; }
+        else { sound = true; soundB.image.sprite = soundOn; }
+        Debug.Log("Sound: " + sound);
     }
     
 }

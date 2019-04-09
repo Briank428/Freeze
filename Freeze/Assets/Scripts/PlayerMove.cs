@@ -5,14 +5,17 @@ public class PlayerMove : MonoBehaviourPun
 {
     public float speed = 10f;
     Rigidbody rb;
+    Vector3 latestPos;
+    Quaternion latestRot;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-    }
 
-    // Update is called once per frame
-    void Update()
+}
+
+// Update is called once per frame
+void Update()
     {
         if (photonView.IsMine)
             InputMovement();
@@ -36,36 +39,22 @@ public class PlayerMove : MonoBehaviourPun
 
     private void SyncedMovement()
     {
-        syncTime += Time.deltaTime;
-        rb.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
+        transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 5);
+        transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 5);
     }
-
-    #region latency vars
-    private float lastSynchronizationTime = 0f;
-    private float syncDelay = 0f;
-    private float syncTime = 0f;
-    private Vector3 syncStartPosition = Vector3.zero;
-    private Vector3 syncEndPosition = Vector3.zero;
-    #endregion
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(rb.position);
-            stream.SendNext(rb.velocity);
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
         }
         else
         {
-            Vector3 syncPosition = (Vector3)stream.ReceiveNext();
-            Vector3 syncVelocity = (Vector3)stream.ReceiveNext();
-
-            syncTime = 0f;
-            syncDelay = Time.time - lastSynchronizationTime;
-            lastSynchronizationTime = Time.time;
-
-            syncEndPosition = syncPosition + syncVelocity * syncDelay;
-            syncStartPosition = rb.position;
+            Debug.Log("Is receiving");
+            latestPos = (Vector3)stream.ReceiveNext();
+            latestRot = (Quaternion)stream.ReceiveNext();
         }
     }
 }

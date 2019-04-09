@@ -7,13 +7,14 @@ using UnityEngine.UI;
 public class SceneLoader : MonoBehaviourPunCallbacks
 {
     float timeLeft;
+    const float TIME_INIT = 10f;
     bool countDown;
     public Text text;
     // Start is called before the first frame update
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        timeLeft = 60f;
+        timeLeft = TIME_INIT;
         countDown = false;
         text.text = "";
     }
@@ -29,10 +30,12 @@ public class SceneLoader : MonoBehaviourPunCallbacks
             {
                 Debug.Log("New Scene");
                 countDown = false;
-                PhotonNetwork.LoadLevel(1);
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.LoadLevel(4);
             }
         }
-        else { timeLeft = 60f;}
+        else if(countDown) text.text = "Time Left: " + ((int)timeLeft).ToString();
+        else { timeLeft = TIME_INIT;}
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
@@ -43,7 +46,6 @@ public class SceneLoader : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         if (PhotonNetwork.PlayerList.Length < 2) { countDown = false; text.text = "Waiting For Players ..."; }
-        
     }
 
     public override void OnJoinedRoom()

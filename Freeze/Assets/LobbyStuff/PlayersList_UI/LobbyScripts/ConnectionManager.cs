@@ -79,7 +79,7 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
 		{
 			PhotonNetwork.JoinRandomRoom();
 		}else{
-        Debug.Log("Connect to master call");
+        Debug.Log("Connect to master call");    
 			PhotonNetwork.ConnectUsingSettings();
 		}
 		MenuUI.SetActive(false);

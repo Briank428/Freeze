@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 60208c217dd80dc4794e94c0663e4b2c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,11 +102,12 @@ GameObject:
   - component: {fileID: 7}
   - component: {fileID: 10}
   - component: {fileID: 14}
-  - component: {fileID: 15}
-  - component: {fileID: 13}
-  - component: {fileID: 16}
+  - component: {fileID: 2507660512569047113}
+  - component: {fileID: 6601840120335873952}
+  - component: {fileID: 1365373558786123}
+  - component: {fileID: 5943545989714382536}
   m_Layer: 0
-  m_Name: Player
+  m_Name: AI
   m_TagString: Runner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d63bee74f07ebe445ba32987ab3c4330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &15
+--- !u!114 &2507660512569047113
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,11 +165,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 5}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e100a58497e46f24689e6922425d14f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ae4c83a2f4692748b44af2226b6998e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
---- !u!114 &13
+--- !u!195 &6601840120335873952
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1365373558786123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,12 +208,12 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 16}
+  - {fileID: 5943545989714382536}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
   isMine: 0
---- !u!114 &16
+--- !u!114 &5943545989714382536
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

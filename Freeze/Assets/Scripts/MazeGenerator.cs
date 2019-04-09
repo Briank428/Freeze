@@ -13,20 +13,7 @@ public class MazeGenerator : MonoBehaviour
     }
     public void Generate(int spawners, int min, int max)
     {
-        this.min = min;
-        this.max = max;
-        map = new GameObject[mazeSize, mazeSize];
-        for (int i = 0; i < mazeSize; i++)
-        {
-            for (int j = 0; j < mazeSize; j++)
-            {
-                GameObject temp = Instantiate(cubePrefab) as GameObject;
-                temp.transform.parent = this.transform;
-                temp.transform.position = new Vector3(i, 0, j);
-                map[i, j] = temp;
-                temp.GetComponent<NavMeshSurface>().BuildNavMesh();
-            }
-        }
+
     }
 
 }

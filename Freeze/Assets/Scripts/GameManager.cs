@@ -22,7 +22,9 @@ public class GameManager : MonoBehaviour
     {
         GameObject temp = PhotonNetwork.Instantiate("Player",Vector3.up,Quaternion.identity);
         if (temp.GetPhotonView().IsMine) temp.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
-        Instantiate(itPrefab, Vector3.up, Quaternion.identity);
+        GameObject tempAI = Instantiate(itPrefab) as GameObject;
+        Debug.Log("Stuff");
+        tempAI.transform.position = Vector3.up * 1.5f;
         yield return null;
     }
     // Update is called once per frame
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
+        Debug.Log("end");
         //GameOver
         //Goto Lobby
         //PhotonNetwork.LoadLevel("Lobby");

@@ -142,8 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLeft: 360
-  aiPrefab: {fileID: 0}
-  maze: {fileID: 517200691}
+  itPrefab: {fileID: 240, guid: c3b67d0f6790fb1428689d67ed8180cc, type: 3}
 --- !u!4 &485950407
 Transform:
   m_ObjectHideFlags: 0

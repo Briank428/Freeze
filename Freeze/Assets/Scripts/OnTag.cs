@@ -11,7 +11,6 @@ public class OnTag : MonoBehaviour
     void Start()
     {
         IsFrozen = false;
-        if (tag == "It") GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -1,12 +1,12 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     #region public vars
-    public float timeLeft = 60f;
-    public GameObject runnerPrefab;
+    public float timeLeft = 320f;
     public GameObject itPrefab;
     public static GameManager Instance;
     #endregion
@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator StartGame()
     {
+        GameObject temp = PhotonNetwork.Instantiate("Player",Vector3.up,Quaternion.identity);
+        if (temp.GetPhotonView().IsMine) temp.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
+        Instantiate(itPrefab, Vector3.up, Quaternion.identity);
         yield return null;
     }
     // Update is called once per frame
@@ -44,7 +47,9 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
-
+        //GameOver
+        //Goto Lobby
+        //PhotonNetwork.LoadLevel("Lobby");
     }
 
 }

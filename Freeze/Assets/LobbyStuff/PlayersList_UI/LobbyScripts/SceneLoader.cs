@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 
@@ -14,6 +12,7 @@ public class SceneLoader : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.LoadLevel(4);
         timeLeft = TIME_INIT;
         countDown = false;
         text.text = "";

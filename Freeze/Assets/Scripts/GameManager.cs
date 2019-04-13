@@ -2,27 +2,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class GameManager : MonoBehaviour
 {
-    #region public vars
     public float timeLeft = 320f;
-    public GameObject itPrefab;
     public static GameManager Instance;
-    #endregion
+    public List<Vector2Int> spawnCells;
+    private Vector2Int playerLoc;
+    public GameObject player;
+    private bool started;
 
     // Start is called before the first frame update
-    void Start()
+    
+    void Start()    
     {
         Instance = this;
+        started = false;
         StartCoroutine("StartGame");
     }
 
     public IEnumerator StartGame()
     {
-        GameObject temp = PhotonNetwork.Instantiate("Player",Vector3.up,Quaternion.identity);
-        if (temp.GetPhotonView().IsMine) temp.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
-        GameObject tempAI = PhotonNetwork.Instantiate("AI",Vector3.up,Quaternion.identity);
+        yield return new WaitForSeconds(5);
+        Random rnd = new Random();
+        playerLoc = spawnCells[rnd.Next(spawnCells.Count)];
+        Vector2Int aiLoc = spawnCells[rnd.Next(spawnCells.Count)];
+
+        player = PhotonNetwork.Instantiate("Player",new Vector3(playerLoc.x,0,playerLoc.y),Quaternion.identity) as GameObject;
+        if (player.GetPhotonView().IsMine || !PhotonNetwork.IsConnected) player.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
+        if (PhotonNetwork.IsMasterClient) { Debug.Log("Master Client");  GameObject tempAI = PhotonNetwork.Instantiate("AI",new Vector3(aiLoc.x,0,aiLoc.y) , Quaternion.identity); }
+        Debug.Log("Player and AI instantiated");
+        started = true;
         yield return null;
     }
     // Update is called once per frame
@@ -31,9 +42,8 @@ public class GameManager : MonoBehaviour
         timeLeft -= Time.deltaTime;
         if (timeLeft < 0 || AllRunnersFrozen())
         {
-            EndGame();
+            //EndGame();
         }
-        
     }
      bool AllRunnersFrozen()
     {
@@ -47,7 +57,7 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
-        Debug.Log("end");
+        //Debug.Log("end");
         //GameOver
         //Goto Lobby
         //PhotonNetwork.LoadLevel("Lobby");

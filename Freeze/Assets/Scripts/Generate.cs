@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Photon.Pun;
+using UnityEngine.AI;
 
 public enum CELL_TYPE
 {
@@ -48,13 +49,13 @@ public class Generate : MonoBehaviour
     {
         generator = this;
         GenerateMap();
+        foreach (NavMeshSurface n in GetComponentsInChildren<NavMeshSurface>()) { n.BuildNavMesh(); } 
     }
 
     public void GenerateMap()
     {
-        if (PhotonNetwork.IsMasterClient || !PhotonNetwork.IsConnected)
+        if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("Master Client Generate");
             size = 21;
             InitMap(5, 2, 10);
         }
@@ -88,6 +89,11 @@ public class Generate : MonoBehaviour
                 if (cells[i, j] == CELL_TYPE.WALL)
                 {
                     GameObject temp = PhotonNetwork.Instantiate("Wall", new Vector3(i, 0f, j),Quaternion.identity);
+                    temp.transform.parent = transform;
+                }
+                else
+                {
+                    GameObject temp = PhotonNetwork.Instantiate("FloorTile", new Vector3(i, -0.5f, j), Quaternion.identity);
                     temp.transform.parent = transform;
                 }
             }

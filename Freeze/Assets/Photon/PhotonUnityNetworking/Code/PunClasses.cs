@@ -602,6 +602,7 @@ namespace Photon.Pun
         private List<object> writeData;
         private object[] readData;
         private byte currentItem; //Used to track the next item to receive.
+        public bool isWriting;
 
         /// <summary>If true, this client should add data to the stream to send it.</summary>
         public bool IsWriting { get; private set; }

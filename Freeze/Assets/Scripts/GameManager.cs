@@ -11,29 +11,26 @@ public class GameManager : MonoBehaviour
     public List<Vector2Int> spawnCells;
     private Vector2Int playerLoc;
     public GameObject player;
-    private bool started;
 
     // Start is called before the first frame update
     
     void Start()    
     {
         Instance = this;
-        started = false;
         StartCoroutine("StartGame");
     }
 
     public IEnumerator StartGame()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         Random rnd = new Random();
-        playerLoc = spawnCells[rnd.Next(spawnCells.Count)];
+        playerLoc = spawnCells[rnd.Next(spawnCells.Count)]; 
         Vector2Int aiLoc = spawnCells[rnd.Next(spawnCells.Count)];
 
-        player = PhotonNetwork.Instantiate("Player",new Vector3(playerLoc.x,0,playerLoc.y),Quaternion.identity) as GameObject;
-        if (player.GetPhotonView().IsMine || !PhotonNetwork.IsConnected) player.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
-        if (PhotonNetwork.IsMasterClient) { Debug.Log("Master Client");  GameObject tempAI = PhotonNetwork.Instantiate("AI",new Vector3(aiLoc.x,0,aiLoc.y) , Quaternion.identity); }
+        player = PhotonNetwork.Instantiate("Player",new Vector3(playerLoc.y,0,playerLoc.x),Quaternion.identity) as GameObject;
+        if (player.GetPhotonView().IsMine) player.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
+        if (PhotonNetwork.IsMasterClient) { GameObject tempAI = PhotonNetwork.Instantiate("AI",new Vector3(aiLoc.y,0,aiLoc.x) , Quaternion.identity); }
         Debug.Log("Player and AI instantiated");
-        started = true;
         yield return null;
     }
     // Update is called once per frame

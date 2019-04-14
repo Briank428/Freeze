@@ -8,11 +8,11 @@ public class SceneLoader : MonoBehaviourPunCallbacks
     const float TIME_INIT = 10f;
     bool countDown;
     public Text text;
+    const int MIN_PLAYERS = 1;
     // Start is called before the first frame update
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonNetwork.LoadLevel(4);
         timeLeft = TIME_INIT;
         countDown = false;
         text.text = "";
@@ -39,20 +39,23 @@ public class SceneLoader : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        if (PhotonNetwork.PlayerList.Length >= 2) countDown = true;
+        if (PhotonNetwork.PlayerList.Length >= MIN_PLAYERS) countDown = true;
     }
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
-        if (PhotonNetwork.PlayerList.Length < 2) { countDown = false; text.text = "Waiting For Players ..."; }
+        if (PhotonNetwork.PlayerList.Length < MIN_PLAYERS) { countDown = false; text.text = "Waiting For Players ..."; }
     }
 
     public override void OnJoinedRoom()
     {
         text.text = "Waiting For Players ...";
+        if (PhotonNetwork.PlayerList.Length >= MIN_PLAYERS) countDown = true;
     }
     public override void OnLeftRoom()
     {
         text.text = "";
+        if (PhotonNetwork.PlayerList.Length < MIN_PLAYERS) { countDown = false; text.text = "Waiting For Players ..."; }
+
     }
 }

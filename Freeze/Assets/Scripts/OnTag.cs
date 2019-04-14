@@ -14,7 +14,8 @@ public class OnTag : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision)
-    {        
+    {
+        Debug.Log("Collision");
         if (tag == "It" && collision.gameObject.tag == "Runner" && !collision.gameObject.GetComponent<OnTag>().IsFrozen)
         {
             collision.gameObject.GetComponent<OnTag>().IsFrozen = true;

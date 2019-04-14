@@ -39,22 +39,35 @@ void Update()
 
     private void SyncedMovement()
     {
-        transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 5);
-        transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 5);
+        syncTime += Time.deltaTime;
+        GetComponent<Rigidbody>().position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
     }
+
+    private float lastSynchronizationTime = 0f;
+    private float syncDelay = 0f;
+    private float syncTime = 0f;
+    private Vector3 syncStartPosition = Vector3.zero;
+    private Vector3 syncEndPosition = Vector3.zero;
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
+            stream.SendNext(GetComponent<Rigidbody>().position);
         }
         else
         {
-            Debug.Log("Is receiving");
-            latestPos = (Vector3)stream.ReceiveNext();
-            latestRot = (Quaternion)stream.ReceiveNext();
+            syncEndPosition = (Vector3)stream.ReceiveNext();
+            syncStartPosition = GetComponent<Rigidbody>().position;
+
+            syncTime = 0f;
+            syncDelay = Time.time - lastSynchronizationTime;
+            lastSynchronizationTime = Time.time;
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        
     }
 }

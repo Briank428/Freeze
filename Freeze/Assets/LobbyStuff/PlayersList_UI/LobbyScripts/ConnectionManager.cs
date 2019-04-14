@@ -45,7 +45,6 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
 	public override void OnJoinedLobby()
 	{
     Debug.Log("OnJoinedLobby");
-
     if (ConnectionInProgress) { 
 
         Debug.Log("Join Random Room");
@@ -77,8 +76,10 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
 		ConnectionInProgress = true;
 		if (PhotonNetwork.InLobby)
 		{
-			PhotonNetwork.JoinRandomRoom();
-		}else{
+            RoomOptions roomOptions = new RoomOptions() { IsVisible = true, MaxPlayers = 5 };
+            PhotonNetwork.JoinOrCreateRoom("RoomOne", roomOptions, TypedLobby.Default);
+        }
+        else {
         Debug.Log("Connect to master call");    
 			PhotonNetwork.ConnectUsingSettings();
 		}
@@ -87,7 +88,7 @@ public class ConnectionManager : MonoBehaviourPunCallbacks
 		
     public override void OnConnectedToMaster()
     {
-    Debug.Log("On ConnectedTo MAstert");
+    Debug.Log("On ConnectedTo Master");
     PhotonNetwork.JoinLobby();
     }
 

@@ -55,7 +55,7 @@ public class SceneLoader : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         text.text = "";
-        if (PhotonNetwork.PlayerList.Length < MIN_PLAYERS) { countDown = false; text.text = "Waiting For Players ..."; }
+        if (PhotonNetwork.PlayerList.Length < MIN_PLAYERS) { countDown = false;}
 
     }
 }

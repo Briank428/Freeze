@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d63bee74f07ebe445ba32987ab3c4330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsFrozen: 0
 --- !u!114 &28
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -43,7 +43,7 @@ public class Generate : MonoBehaviour
     public List<Builder> builders;
     private List<Vector2Int> _startPoints = new List<Vector2Int>();
     public static Generate generator;
-    public GameObject cubePrefab;
+    public GameObject[] tiles;
 
     void Start()
     {
@@ -71,10 +71,8 @@ public class Generate : MonoBehaviour
         {
             CreateSpawner(minDistance, maxDistance);
         }
-        int count = 0;
-        while (!Finished() && count < 200)
+        while (!Finished())
         {
-            count++;
             Next();
         }
         BuildMap();
@@ -88,18 +86,90 @@ public class Generate : MonoBehaviour
             {
                 if (cells[i, j] == CELL_TYPE.WALL)
                 {
-                    GameObject temp = PhotonNetwork.Instantiate("Wall", new Vector3(i, 0f, j),Quaternion.identity);
-                    temp.transform.parent = transform;
+                    switch (NumPathAdjacent(new Vector2Int(i, j)))
+                    {
+                        case 1:
+                            if (j < size - 1 && cells[i, j + 1] != CELL_TYPE.WALL)
+                            {
+                                Instantiate(tiles[5], new Vector3(j, i), Quaternion.identity);
+                            }
+                            else if (j > 0 && cells[i, j - 1] != CELL_TYPE.WALL)
+                            {
+                                Instantiate(tiles[4], new Vector3(j, i), Quaternion.identity);
+                            }
+                            else if (i < size - 1 && cells[i + 1, j] != CELL_TYPE.WALL)
+                            {
+                                Instantiate(tiles[6], new Vector3(j, i), Quaternion.identity);
+                            }
+                            else if (i > 0 && cells[i - 1, j] != CELL_TYPE.WALL)
+                            {
+                                Instantiate(tiles[1], new Vector3(j, i), Quaternion.identity);
+                            }
+                            break;
+
+                        case 2:
+                            //check directions, if opposite, instantiate solid block small, else generate appropriate corner
+                            break;
+
+                        case 3:
+                        case 4:
+                            Instantiate(tiles[9],new Vector3(j,i),Quaternion.identity);
+                            //instantiate solid block small
+                            break;
+
+                        default: //0
+                            //instantiate dirt solid
+                            Instantiate(tiles[0], new Vector3(j, i), Quaternion.identity);
+                            break;
+                    }
                 }
                 else
                 {
-                    GameObject temp = PhotonNetwork.Instantiate("FloorTile", new Vector3(i, -0.5f, j), Quaternion.identity);
-                    temp.transform.parent = transform;
+                    //path (possibly a transparent mesh for navmesh purposes)
                 }
             }
         }
     }
 
+    int NumPathAdjacent(Vector2Int pos)
+    {
+        int count = 0;
+        foreach(DIR d in DIR_ARRAY)
+        {
+            int x = 0, y = 0;
+            switch (d)
+            {
+                case DIR.UP:
+                    x = 0;
+                    y = -1;
+                    break;
+
+                case DIR.DOWN:
+                    x = 0;
+                    y = 1;
+                    break;
+
+                case DIR.LEFT:
+                    x = -1;
+                    y = 0;
+                    break;
+
+                case DIR.RIGHT:
+                    x = 1;
+                    y = 0;
+                    break;
+            }
+            try
+            {
+                if (cells[pos.x + x, pos.y + y] != CELL_TYPE.WALL)
+                {
+                    count++; 
+                }
+                Debug.Log((cells[pos.x + x, pos.y + y] != CELL_TYPE.WALL));
+            } catch { Debug.Log("catch"); };
+        }
+        return count;
+    }
 
     public bool Finished()
     {

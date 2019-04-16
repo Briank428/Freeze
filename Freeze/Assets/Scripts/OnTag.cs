@@ -5,7 +5,7 @@ using UnityEngine;
 public class OnTag : MonoBehaviour
 {
     [SerializeField]
-    public bool IsFrozen { get; set; }
+    public bool IsFrozen;
 
     // Start is called before the first frame update
     void Start()

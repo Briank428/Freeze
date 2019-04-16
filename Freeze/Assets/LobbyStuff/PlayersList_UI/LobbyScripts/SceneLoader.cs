@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class SceneLoader : MonoBehaviourPunCallbacks
 {
     float timeLeft;
-    const float TIME_INIT = 10f;
+    const float TIME_INIT = 3f;
     bool countDown;
     public Text text;
     const int MIN_PLAYERS = 1;

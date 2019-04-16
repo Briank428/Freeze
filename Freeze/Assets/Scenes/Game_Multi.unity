@@ -339,8 +339,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawners: []
-  cubePrefab: {fileID: 2013467049107914354, guid: 0d0d6391b818bb64f8abb500c4279331,
-    type: 3}
+  tiles:
+  - {fileID: 1429914451215394737, guid: 4235b338d03986645824bea775c122ab, type: 3}
+  - {fileID: 4533000398057290341, guid: 54bfb665832c03941b17b58c80dbda9c, type: 3}
+  - {fileID: 3243898627017764083, guid: 73327dfcda696334eb0d616e299514f1, type: 3}
+  - {fileID: 7757471200080374284, guid: 7ada59e2e2ea99f428b588ed49bed847, type: 3}
+  - {fileID: 875830584968396843, guid: fe067453038a2e94cb0e8b5e7919c4a7, type: 3}
+  - {fileID: 5412534042520213768, guid: d398b4c1de04db0488b7c7ec9176a005, type: 3}
+  - {fileID: 5004561803005207403, guid: 056299d34d5c69d4e81f087c4635aa0f, type: 3}
+  - {fileID: 3823358014420506618, guid: 8b262e3a7eaa27b4d8db127bcc79eab0, type: 3}
+  - {fileID: 4934833335623043779, guid: 7dbf3fe979dd73246b9ceea3dc706e7c, type: 3}
+  - {fileID: 3632725800919869443, guid: 162b2fe9533cc9b4bbdaf81ddfd22c68, type: 3}
 --- !u!4 &2044371993
 Transform:
   m_ObjectHideFlags: 0

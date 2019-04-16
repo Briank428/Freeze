@@ -57,7 +57,7 @@ public class Generate : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
         {
             size = 21;
-            InitMap(5, 2, 10);
+            InitMap(4, 2, 10);
         }
         GameManager.Instance.spawnCells = spawners;
     }
@@ -108,24 +108,33 @@ public class Generate : MonoBehaviour
                             break;
 
                         case 2:
-                            //check directions, if opposite, instantiate solid block small, else generate appropriate corner
+                            if (i == 0 || j == 0 || i == size - 1 || j == size - 1) Instantiate(tiles[2], new Vector3(j, i), Quaternion.identity);
+                            else if (cells[i + 1, j] != CELL_TYPE.WALL && cells[i - 1, j] != CELL_TYPE.WALL) Instantiate(tiles[6], new Vector3(j, i), Quaternion.identity);
+                            else if (cells[i, j + 1] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[3], new Vector3(j, i), Quaternion.identity);
+
+                            else if (cells[i + 1 , j] != CELL_TYPE.WALL && cells[i, j + 1] != CELL_TYPE.WALL) Instantiate(tiles[8], new Vector3(j, i), Quaternion.identity);
+                            else if (cells[i + 1, j] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[7], new Vector3(j, i), Quaternion.identity);
+                            else if (cells[i - 1, j] != CELL_TYPE.WALL && cells[i, j + 1] != CELL_TYPE.WALL) Instantiate(tiles[3], new Vector3(j, i), Quaternion.identity);
+                            else if (cells[i - 1, j] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[2], new Vector3(j, i), Quaternion.identity);
+
                             break;
 
                         case 3:
+                            Instantiate(tiles[9], new Vector3(j, i), Quaternion.identity);
+                            break;
                         case 4:
-                            Instantiate(tiles[9],new Vector3(j,i),Quaternion.identity);
-                            //instantiate solid block small
+                            Instantiate(tiles[10],new Vector3(j,i),Quaternion.identity);
                             break;
 
                         default: //0
-                            //instantiate dirt solid
                             Instantiate(tiles[0], new Vector3(j, i), Quaternion.identity);
                             break;
                     }
                 }
                 else
                 {
-                    //path (possibly a transparent mesh for navmesh purposes)
+                    Instantiate(tiles[13], new Vector3(j, i), Quaternion.identity);
+                    //path 
                 }
             }
         }
@@ -165,8 +174,7 @@ public class Generate : MonoBehaviour
                 {
                     count++; 
                 }
-                Debug.Log((cells[pos.x + x, pos.y + y] != CELL_TYPE.WALL));
-            } catch { Debug.Log("catch"); };
+            } catch { };
         }
         return count;
     }

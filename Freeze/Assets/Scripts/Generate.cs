@@ -80,9 +80,19 @@ public class Generate : MonoBehaviour
 
     void BuildMap()
     {
-        for(int i = 0; i < size; i++)
+        Instantiate(tiles[9], new Vector2(-1, -1), Quaternion.identity);
+        Instantiate(tiles[9], new Vector2(size, -1), Quaternion.identity);
+        Instantiate(tiles[9], new Vector2(-1, size), Quaternion.identity);
+        Instantiate(tiles[9], new Vector2(size, size), Quaternion.identity);
+
+        for (int i = 0; i < size; i++)
         {
-            for( int j = 0; j < size; j++)
+            Instantiate(tiles[9], new Vector2(-1, i), Quaternion.identity);
+            Instantiate(tiles[9], new Vector2(size, i), Quaternion.identity);
+            Instantiate(tiles[9], new Vector2(i, -1), Quaternion.identity);
+            Instantiate(tiles[9], new Vector2(i, size), Quaternion.identity);
+
+            for ( int j = 0; j < size; j++)
             {
                 if (cells[i, j] == CELL_TYPE.WALL)
                 {
@@ -91,50 +101,55 @@ public class Generate : MonoBehaviour
                         case 1:
                             if (j < size - 1 && cells[i, j + 1] != CELL_TYPE.WALL)
                             {
-                                Instantiate(tiles[5], new Vector3(j, i), Quaternion.identity);
+                                if (UnityEngine.Random.Range(0f, 1f) < 0.5f) Instantiate(tiles[12], new Vector2(j, i), Quaternion.identity);
+                                else Instantiate(tiles[5], new Vector2(j, i), Quaternion.identity);
                             }
                             else if (j > 0 && cells[i, j - 1] != CELL_TYPE.WALL)
                             {
-                                Instantiate(tiles[4], new Vector3(j, i), Quaternion.identity);
+                                if (UnityEngine.Random.Range(0f, 1f) < 0.5f) Instantiate(tiles[4], new Vector2(j, i), Quaternion.identity);
+                                else Instantiate(tiles[15], new Vector2(j, i), Quaternion.identity);
                             }
                             else if (i < size - 1 && cells[i + 1, j] != CELL_TYPE.WALL)
                             {
-                                Instantiate(tiles[6], new Vector3(j, i), Quaternion.identity);
+                                if (UnityEngine.Random.Range(0f, 1f) < 0.5f) Instantiate(tiles[14], new Vector2(j, i), Quaternion.identity);
+                                else Instantiate(tiles[6], new Vector2(j, i), Quaternion.identity);
                             }
                             else if (i > 0 && cells[i - 1, j] != CELL_TYPE.WALL)
                             {
-                                Instantiate(tiles[1], new Vector3(j, i), Quaternion.identity);
+                                Instantiate(tiles[1], new Vector2(j, i), Quaternion.identity);
                             }
                             break;
 
                         case 2:
-                            if (i == 0 || j == 0 || i == size - 1 || j == size - 1) Instantiate(tiles[2], new Vector3(j, i), Quaternion.identity);
-                            else if (cells[i + 1, j] != CELL_TYPE.WALL && cells[i - 1, j] != CELL_TYPE.WALL) Instantiate(tiles[6], new Vector3(j, i), Quaternion.identity);
-                            else if (cells[i, j + 1] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[3], new Vector3(j, i), Quaternion.identity);
+                            if (i == 0 || j == 0 || i == size - 1 || j == size - 1) Instantiate(tiles[2], new Vector2(j, i), Quaternion.identity);
+                            else if (cells[i + 1, j] != CELL_TYPE.WALL && cells[i - 1, j] != CELL_TYPE.WALL) Instantiate(tiles[6], new Vector2(j, i), Quaternion.identity);
+                            else if (cells[i, j + 1] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[3], new Vector2(j, i), Quaternion.identity);
 
-                            else if (cells[i + 1 , j] != CELL_TYPE.WALL && cells[i, j + 1] != CELL_TYPE.WALL) Instantiate(tiles[8], new Vector3(j, i), Quaternion.identity);
-                            else if (cells[i + 1, j] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[7], new Vector3(j, i), Quaternion.identity);
-                            else if (cells[i - 1, j] != CELL_TYPE.WALL && cells[i, j + 1] != CELL_TYPE.WALL) Instantiate(tiles[3], new Vector3(j, i), Quaternion.identity);
-                            else if (cells[i - 1, j] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[2], new Vector3(j, i), Quaternion.identity);
+                            else if (cells[i + 1 , j] != CELL_TYPE.WALL && cells[i, j + 1] != CELL_TYPE.WALL) Instantiate(tiles[8], new Vector2(j, i), Quaternion.identity);
+                            else if (cells[i + 1, j] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[7], new Vector2(j, i), Quaternion.identity);
+                            else if (cells[i - 1, j] != CELL_TYPE.WALL && cells[i, j + 1] != CELL_TYPE.WALL) Instantiate(tiles[3], new Vector2(j, i), Quaternion.identity);
+                            else if (cells[i - 1, j] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[2], new Vector2(j, i), Quaternion.identity);
 
                             break;
 
                         case 3:
-                            Instantiate(tiles[9], new Vector3(j, i), Quaternion.identity);
+                            Instantiate(tiles[9], new Vector2(j, i), Quaternion.identity);
                             break;
                         case 4:
-                            Instantiate(tiles[10],new Vector3(j,i),Quaternion.identity);
+                            Instantiate(tiles[10],new Vector2(j,i),Quaternion.identity);
                             break;
 
                         default: //0
-                            Instantiate(tiles[0], new Vector3(j, i), Quaternion.identity);
+                            if (UnityEngine.Random.Range(0f,1f) < 0.8f) Instantiate(tiles[0], new Vector2(j, i), Quaternion.identity);
+                            else if (UnityEngine.Random.Range(0f, 1f) < 0.9f) Instantiate(tiles[11], new Vector2(j, i), Quaternion.identity);
+                            else Instantiate(tiles[10], new Vector2(j, i), Quaternion.identity);
                             break;
                     }
                 }
                 else
                 {
-                    Instantiate(tiles[13], new Vector3(j, i), Quaternion.identity);
-                    //path 
+                    GameObject temp = Instantiate(tiles[13], new Vector2(j, i), Quaternion.identity);
+                    temp.tag = "Path";
                 }
             }
         }

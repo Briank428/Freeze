@@ -145,7 +145,7 @@ public class Generate : MonoBehaviour
                             break;
                     }
                 }
-                else
+                else 
                 {
                     GameObject temp = PhotonNetwork.Instantiate("Brick", new Vector2(j, i), Quaternion.identity) as GameObject;
                     temp.tag = "Path";

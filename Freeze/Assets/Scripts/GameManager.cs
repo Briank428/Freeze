@@ -29,9 +29,9 @@ public class GameManager : MonoBehaviour
         playerLoc = spawnCells[rnd.Next(spawnCells.Count)];
         Vector2Int aiLoc = spawnCells[rnd.Next(spawnCells.Count)];
 
-        player = PhotonNetwork.Instantiate("Player",new Vector2(playerLoc.x + 0.5f,playerLoc.y + 0.5f),Quaternion.identity) as GameObject;
+        player = PhotonNetwork.Instantiate("Player",new Vector2(playerLoc.x + .5f,playerLoc.y -.5f),Quaternion.identity) as GameObject;
         if (player.GetPhotonView().IsMine) player.transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.blue;
-        if (PhotonNetwork.IsMasterClient) { GameObject tempAI = PhotonNetwork.Instantiate("AI",new Vector2(aiLoc.x + 0.5f,aiLoc.y + 0.5f) , Quaternion.identity); }
+        //if (PhotonNetwork.IsMasterClient) { GameObject tempAI = PhotonNetwork.Instantiate("AI",new Vector2(aiLoc.x - 0.5f,aiLoc.y + 0.5f) , Quaternion.identity); }
         Debug.Log("Player and AI instantiated");
         begin = true;
         yield return null;

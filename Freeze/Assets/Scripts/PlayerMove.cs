@@ -4,15 +4,15 @@ using Photon.Pun;
 public class PlayerMove : MonoBehaviourPun
 {
     public float speed = 10f;
-    Rigidbody rb;
-    Vector3 latestPos;
+    Rigidbody2D rb;
+    Vector2 latestPos;
     Quaternion latestRot;
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
 
-}
+    }
 
 // Update is called once per frame
 void Update()
@@ -25,16 +25,18 @@ void Update()
     void InputMovement()
     {
         if (Input.GetKey(KeyCode.W))
-            rb.MovePosition(rb.position + Vector3.forward * speed * Time.deltaTime);
-
+            MoveTo(Vector2.up);
         if (Input.GetKey(KeyCode.S))
-            rb.MovePosition(rb.position - Vector3.forward * speed * Time.deltaTime);
-
+            MoveTo(Vector2.down);
         if (Input.GetKey(KeyCode.D))
-            rb.MovePosition(rb.position + Vector3.right * speed * Time.deltaTime);
-
+            MoveTo(Vector2.right);
         if (Input.GetKey(KeyCode.A))
-            rb.MovePosition(rb.position - Vector3.right * speed * Time.deltaTime);
+            MoveTo(Vector2.left);
+    }
+
+    void MoveTo(Vector2 dir)
+    {
+        rb.MovePosition(rb.position + dir * speed * Time.deltaTime);
     }
 
     private void SyncedMovement()

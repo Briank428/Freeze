@@ -5,10 +5,10 @@ using UnityEngine.UI;
 public class SceneLoader : MonoBehaviourPunCallbacks
 {
     float timeLeft;
-    const float TIME_INIT = 3f;
+    const float TIME_INIT = 10f;
     bool countDown;
     public Text text;
-    const int MIN_PLAYERS = 1;
+    const int MIN_PLAYERS = 2;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +40,7 @@ public class SceneLoader : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         if (PhotonNetwork.PlayerList.Length >= MIN_PLAYERS) countDown = true;
+        timeLeft = TIME_INIT;
     }
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)

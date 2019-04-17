@@ -49,12 +49,11 @@ public class Generate : MonoBehaviour
     {
         generator = this;
         GenerateMap();
-        foreach (NavMeshSurface n in GetComponentsInChildren<NavMeshSurface>()) { n.BuildNavMesh(); } 
     }
 
     public void GenerateMap()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient || !PhotonNetwork.IsConnected)
         {
             size = 21;
             InitMap(4, 2, 10);
@@ -80,17 +79,17 @@ public class Generate : MonoBehaviour
 
     void BuildMap()
     {
-        Instantiate(tiles[9], new Vector2(-1, -1), Quaternion.identity);
-        Instantiate(tiles[9], new Vector2(size, -1), Quaternion.identity);
-        Instantiate(tiles[9], new Vector2(-1, size), Quaternion.identity);
-        Instantiate(tiles[9], new Vector2(size, size), Quaternion.identity);
+        PhotonNetwork.Instantiate("Block", new Vector2(-1, -1), Quaternion.identity);
+        PhotonNetwork.Instantiate("Block", new Vector2(size, -1), Quaternion.identity);
+        PhotonNetwork.Instantiate("Block", new Vector2(-1, size), Quaternion.identity);
+        PhotonNetwork.Instantiate("Block", new Vector2(size, size), Quaternion.identity);
 
         for (int i = 0; i < size; i++)
         {
-            Instantiate(tiles[9], new Vector2(-1, i), Quaternion.identity);
-            Instantiate(tiles[9], new Vector2(size, i), Quaternion.identity);
-            Instantiate(tiles[9], new Vector2(i, -1), Quaternion.identity);
-            Instantiate(tiles[9], new Vector2(i, size), Quaternion.identity);
+            PhotonNetwork.Instantiate("Block", new Vector2(-1, i), Quaternion.identity).AddComponent<BoxCollider2D>();
+            PhotonNetwork.Instantiate("Block", new Vector2(size, i), Quaternion.identity).AddComponent<BoxCollider2D>();
+            PhotonNetwork.Instantiate("Block", new Vector2(i, -1), Quaternion.identity).AddComponent<BoxCollider2D>();
+            PhotonNetwork.Instantiate("Block", new Vector2(i, size), Quaternion.identity).AddComponent<BoxCollider2D>();
 
             for ( int j = 0; j < size; j++)
             {
@@ -101,55 +100,56 @@ public class Generate : MonoBehaviour
                         case 1:
                             if (j < size - 1 && cells[i, j + 1] != CELL_TYPE.WALL)
                             {
-                                if (UnityEngine.Random.Range(0f, 1f) < 0.5f) Instantiate(tiles[12], new Vector2(j, i), Quaternion.identity);
-                                else Instantiate(tiles[5], new Vector2(j, i), Quaternion.identity);
+                                if (UnityEngine.Random.Range(0f, 1f) < 0.5f) PhotonNetwork.Instantiate("Right1", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
+                                else PhotonNetwork.Instantiate("Right2", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
                             }
                             else if (j > 0 && cells[i, j - 1] != CELL_TYPE.WALL)
                             {
-                                if (UnityEngine.Random.Range(0f, 1f) < 0.5f) Instantiate(tiles[4], new Vector2(j, i), Quaternion.identity);
-                                else Instantiate(tiles[15], new Vector2(j, i), Quaternion.identity);
+                                if (UnityEngine.Random.Range(0f, 1f) < 0.5f) PhotonNetwork.Instantiate("Left1", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
+                                else PhotonNetwork.Instantiate("Left2", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
                             }
                             else if (i < size - 1 && cells[i + 1, j] != CELL_TYPE.WALL)
                             {
-                                if (UnityEngine.Random.Range(0f, 1f) < 0.5f) Instantiate(tiles[14], new Vector2(j, i), Quaternion.identity);
-                                else Instantiate(tiles[6], new Vector2(j, i), Quaternion.identity);
+                                if (UnityEngine.Random.Range(0f, 1f) < 0.5f) PhotonNetwork.Instantiate("Top1", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
+                                else PhotonNetwork.Instantiate("Top2", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
                             }
                             else if (i > 0 && cells[i - 1, j] != CELL_TYPE.WALL)
                             {
-                                Instantiate(tiles[1], new Vector2(j, i), Quaternion.identity);
+                                PhotonNetwork.Instantiate("Bottom", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
                             }
                             break;
 
                         case 2:
-                            if (i == 0 || j == 0 || i == size - 1 || j == size - 1) Instantiate(tiles[2], new Vector2(j, i), Quaternion.identity);
-                            else if (cells[i + 1, j] != CELL_TYPE.WALL && cells[i - 1, j] != CELL_TYPE.WALL) Instantiate(tiles[6], new Vector2(j, i), Quaternion.identity);
-                            else if (cells[i, j + 1] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[3], new Vector2(j, i), Quaternion.identity);
+                            if (i == 0 || j == 0 || i == size - 1 || j == size - 1) PhotonNetwork.Instantiate("BottomLeft", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
+                            else if (cells[i + 1, j] != CELL_TYPE.WALL && cells[i - 1, j] != CELL_TYPE.WALL) PhotonNetwork.Instantiate("Top2", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
+                            else if (cells[i, j + 1] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) PhotonNetwork.Instantiate("BottomRight", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
 
-                            else if (cells[i + 1 , j] != CELL_TYPE.WALL && cells[i, j + 1] != CELL_TYPE.WALL) Instantiate(tiles[8], new Vector2(j, i), Quaternion.identity);
-                            else if (cells[i + 1, j] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[7], new Vector2(j, i), Quaternion.identity);
-                            else if (cells[i - 1, j] != CELL_TYPE.WALL && cells[i, j + 1] != CELL_TYPE.WALL) Instantiate(tiles[3], new Vector2(j, i), Quaternion.identity);
-                            else if (cells[i - 1, j] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) Instantiate(tiles[2], new Vector2(j, i), Quaternion.identity);
+                            else if (cells[i + 1 , j] != CELL_TYPE.WALL && cells[i, j + 1] != CELL_TYPE.WALL) PhotonNetwork.Instantiate("TopRight", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
+                            else if (cells[i + 1, j] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) PhotonNetwork.Instantiate("TopLeft", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
+                            else if (cells[i - 1, j] != CELL_TYPE.WALL && cells[i, j + 1] != CELL_TYPE.WALL) PhotonNetwork.Instantiate("BottomRight", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
+                            else if (cells[i - 1, j] != CELL_TYPE.WALL && cells[i, j - 1] != CELL_TYPE.WALL) PhotonNetwork.Instantiate("BottomLeft", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
 
                             break;
 
                         case 3:
-                            Instantiate(tiles[9], new Vector2(j, i), Quaternion.identity);
+                            PhotonNetwork.Instantiate("Block", new Vector2(j, i), Quaternion.identity).AddComponent<BoxCollider2D>();
                             break;
                         case 4:
-                            Instantiate(tiles[10],new Vector2(j,i),Quaternion.identity);
+                            PhotonNetwork.Instantiate("Dirt2", new Vector2(j,i),Quaternion.identity).AddComponent<BoxCollider2D>();
                             break;
 
                         default: //0
-                            if (UnityEngine.Random.Range(0f,1f) < 0.8f) Instantiate(tiles[0], new Vector2(j, i), Quaternion.identity);
-                            else if (UnityEngine.Random.Range(0f, 1f) < 0.9f) Instantiate(tiles[11], new Vector2(j, i), Quaternion.identity);
-                            else Instantiate(tiles[10], new Vector2(j, i), Quaternion.identity);
+                            if (UnityEngine.Random.Range(0f,1f) < 0.8f) PhotonNetwork.Instantiate("Dirt1", new Vector2(j, i), Quaternion.identity);
+                            else if (UnityEngine.Random.Range(0f, 1f) < 0.9f) PhotonNetwork.Instantiate("Dirt2", new Vector2(j, i), Quaternion.identity);
+                            else PhotonNetwork.Instantiate("Dirt3", new Vector2(j, i), Quaternion.identity);
                             break;
                     }
                 }
                 else
                 {
-                    GameObject temp = Instantiate(tiles[13], new Vector2(j, i), Quaternion.identity);
+                    GameObject temp = PhotonNetwork.Instantiate("Brick", new Vector2(j, i), Quaternion.identity) as GameObject;
                     temp.tag = "Path";
+                    
                 }
             }
         }

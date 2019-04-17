@@ -4,8 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(BoxCollider2D))]
 public class TiledBackground : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject tileObject;
+    public GameObject tileObject;
     private BoxCollider2D canvasCollider;
 
     void Start()
@@ -33,7 +32,7 @@ public class TiledBackground : MonoBehaviour
         {
             for (int j = 0; j < tilesY; j++)
             {
-                var newTilePos = new Vector2(bottomLeft.x + i * tileSize.x, bottomLeft.y + tileSize.y * j);
+                var newTilePos = new Vector3(bottomLeft.x + i * tileSize.x, bottomLeft.y + tileSize.y * j, 5f);
                 var newTile = Instantiate(tileObject, newTilePos, Quaternion.identity) as GameObject;
                 newTile.transform.parent = transform;
             }

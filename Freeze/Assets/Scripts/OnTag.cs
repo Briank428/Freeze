@@ -20,12 +20,15 @@ public class OnTag : MonoBehaviour
         {
             collision.gameObject.GetComponent<OnTag>().IsFrozen = true;
             Debug.Log("Freeze");
+            Grid.UpdateGrid(collision.gameObject, true);
         }
         else if (tag == "Runner" && collision.gameObject.tag == "Runner" && collision.gameObject.GetComponent<OnTag>().IsFrozen)
         {
             collision.gameObject.GetComponent<OnTag>().IsFrozen = false;
             Debug.Log("Unfreeze");
+            Grid.UpdateGrid(collision.gameObject, false);
         }
+        
     }
 
     // Update is called once per frame

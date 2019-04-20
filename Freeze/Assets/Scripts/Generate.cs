@@ -44,6 +44,7 @@ public class Generate : MonoBehaviour
     private List<Vector2Int> _startPoints = new List<Vector2Int>();
     public static Generate generator;
     public GameObject[] tiles;
+    public static Node[,] nodes;
 
     void Start()
     {
@@ -56,6 +57,7 @@ public class Generate : MonoBehaviour
         if (PhotonNetwork.IsMasterClient || !PhotonNetwork.IsConnected)
         {
             size = 21;
+            nodes = new Node[size, size];
             InitMap(4, 2, 10);
         }
         GameManager.Instance.spawnCells = spawners;
@@ -95,6 +97,7 @@ public class Generate : MonoBehaviour
             {
                 if (cells[i, j] == CELL_TYPE.WALL)
                 {
+                    nodes[j, i] = new Node(j, i, false);
                     switch (NumPathAdjacent(new Vector2Int(i, j)))
                     {
                         case 1:
@@ -148,13 +151,13 @@ public class Generate : MonoBehaviour
                 else 
                 {
                     GameObject temp = PhotonNetwork.Instantiate("Brick", new Vector2(j, i), Quaternion.identity) as GameObject;
+                    nodes[j,i] = new Node(j, i, true);
                     temp.tag = "Path";
-                    
                 }
             }
         }
+        Grid.BuildGrid(nodes, size);
     }
-
     int NumPathAdjacent(Vector2Int pos)
     {
         int count = 0;

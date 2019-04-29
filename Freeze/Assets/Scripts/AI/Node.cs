@@ -4,6 +4,7 @@ public class Node
     private double x; public double GetX() { return x; }
     private double y; public double GetY() { return y;  }
     private bool active; public bool isActive () { return active; }
+    public void SetActive(bool boolean) { active = boolean; }
 
     public bool up;
     public bool down;

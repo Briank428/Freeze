@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
 using UnityEngine;
 
-public class OnTag : MonoBehaviour
+public class OnTag : MonoBehaviourPun
 {
     [SerializeField]
     public bool IsFrozen;
@@ -13,20 +12,26 @@ public class OnTag : MonoBehaviour
         IsFrozen = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Collision");
-        if (tag == "It" && collision.gameObject.tag == "Runner" && !collision.gameObject.GetComponent<OnTag>().IsFrozen)
+        if(collision.gameObject.tag == "Runner")
         {
-            collision.gameObject.GetComponent<OnTag>().IsFrozen = true;
-            Debug.Log("Freeze");
-            Grid.UpdateGrid(collision.gameObject, true);
+            if (IsFrozen)
+            {
+                Debug.Log("Unfreeze");
+                IsFrozen = false;
+                Grid.UpdateGrid(gameObject, false);
+                transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.white;
+                if (photonView.IsMine) transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = Color.blue;
+            }
         }
-        else if (tag == "Runner" && collision.gameObject.tag == "Runner" && collision.gameObject.GetComponent<OnTag>().IsFrozen)
+        else if(collision.gameObject.tag == "It")
         {
-            collision.gameObject.GetComponent<OnTag>().IsFrozen = false;
-            Debug.Log("Unfreeze");
-            Grid.UpdateGrid(collision.gameObject, false);
+            Debug.Log("Freeze");
+            IsFrozen = true;
+            transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = Color.cyan;
+            Grid.UpdateGrid(gameObject, true);
         }
         
     }

@@ -94,14 +94,14 @@ public class Grid : MonoBehaviour
 
         }
     }
-    public bool ConnectionIsValid(Point a, Point b) {
+    /*public bool ConnectionIsValid(Point a, Point b) {
         if (a.X == b.X && a.Y == b.Y) return false; if (!grid[a.X, a.Y].isActive()) return false;
         if (a.X == b.X && a.Y > b.Y) return grid[a.X, a.Y].up;
         if (a.X == b.X && a.Y < b.Y) return grid[a.X, a.Y].down;
         if (a.X > b.X && a.Y == b.Y) return grid[a.X, a.Y].left;
         if (a.X < b.X && a.Y== b.Y) return grid[a.X, a.Y].right;
         return false;
-    }
+    }*/
     public static void UpdateGrid(GameObject player, bool frozen) {
         Vector2 temp = player.transform.position;
         bool twoNodes = false;

@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Grid : MonoBehaviour
 {
     private static float unit = 1.5f;
     private static Node[,] grid;
-    private static List<BreadCrumb> waypoints;
+    private static List<BreadCrumb> waypoints = new List<BreadCrumb>();
     private static int width;
     public int GetWidth() { return width; }
 
@@ -84,8 +85,43 @@ public class Grid : MonoBehaviour
         foreach (Node node in grid)
         {
             if (node.isActive()) node.SetWayPoint();
-            if (node.isWayPoint()) { waypoints[count] = new BreadCrumb(new Vector2((float)node.GetX(), (float)node.GetY())); count++; }
+            if (node.isWayPoint()) {
+                BreadCrumb bc = new BreadCrumb(new Vector2((float)node.GetX(), (float)node.GetY()));
+                if (node.up) {
+                    int x = (int)(node.GetX() - 0.5);  int y = (int)(node.GetY() + 1.5);  Node temp = grid[x, y];
+                    while (y < width-1 && temp.up) { y++; temp = grid[x, y]; }
+                    bc.neighbors.Add(new BreadCrumb(new Vector2((float)(x + 0.5), (float)(y - 0.5))));
+                    bc.upNeigh = true;
+                }
+                if (node.down)
+                {
+                    int x = (int)(node.GetX() - 0.5); int y = (int)(node.GetY() - 0.5); Node temp = grid[x, y];
+                    while (y>1 && temp.down) { y--; temp = grid[x, y]; }
+                    bc.neighbors.Add(new BreadCrumb(new Vector2((float)(x + 0.5), (float)(y - 0.5))));
+                    bc.downNeigh = true;
+                }
+                if (node.right)
+                {
+                    int x = (int)(node.GetX() + 0.5); int y = (int)(node.GetY() + 0.5); Node temp = grid[x, y];
+                    while (x < width-1 && temp.right) { x++; temp = grid[x, y]; }
+                    bc.neighbors.Add(new BreadCrumb(new Vector2((float)(x + 0.5), (float)(y - 0.5))));
+                    bc.rightNeigh = true;
+                }
+                if (node.left)
+                {
+                    int x = (int)(node.GetX() - 1.5); int y = (int)(node.GetY() + 0.5); Node temp = grid[x, y];
+                    while (x> 1 && temp.left) { x--; temp = grid[x, y]; }
+                    bc.neighbors.Add(new BreadCrumb(new Vector2((float)(x + 0.5), (float)(y - 0.5))));
+                    bc.leftNeigh = true;
+                }
+                Debug.Log(count + " wp: (" + node.GetX() + ", " + node.GetY() + "). UP " + bc.upNeigh +
+                    " DOWN " + bc.downNeigh + " RIGHT " + bc.rightNeigh + " LEFT " + bc.rightNeigh);
+                waypoints.Add(bc);
+                count++;
+            }
+            
         }
+        
         /*foreach (Node node in grid)
         {
             if (node.isActive())
@@ -138,7 +174,7 @@ public class Grid : MonoBehaviour
     }
     void Update()
     {
-        //Pathfinding demo
+        /*Pathfinding demo
         if (Input.GetMouseButtonDown(0))
         {   
             //Convert mouse click point to grid coordinates
@@ -174,6 +210,6 @@ public class Grid : MonoBehaviour
                     lr.SetVertexCount(count);
                 }
             }
-        }
+        }*/
     }
 }

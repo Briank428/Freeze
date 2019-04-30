@@ -43,7 +43,6 @@ public class Generate : MonoBehaviour
     public List<Builder> builders;
     private List<Vector2Int> _startPoints = new List<Vector2Int>();
     public static Generate generator;
-    public GameObject[] tiles;
     public static Node[,] nodes;
 
     void Start()
@@ -156,7 +155,6 @@ public class Generate : MonoBehaviour
                 }
             }
         }
-        Grid.BuildGrid(nodes, size);
     }
     int NumPathAdjacent(Vector2Int pos)
     {

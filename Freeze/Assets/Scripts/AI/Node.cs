@@ -4,6 +4,7 @@ public class Node
     private double x; public double GetX() { return x; }
     private double y; public double GetY() { return y;  }
     private bool active; public bool isActive () { return active; }
+    private bool wayPoint; public bool isWayPoint() { return wayPoint; }
     public void SetActive(bool boolean) { active = boolean; }
 
     public bool up;
@@ -22,4 +23,8 @@ public class Node
         active = a;
         up = false; down = false; left = false; right = false;
     }
+    public void SetWayPoint() {
+        wayPoint = (up && right) || (up && left) || (down && right) || (down && left);
+    }
+
 }

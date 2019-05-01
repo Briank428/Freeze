@@ -21,7 +21,6 @@ public class OnTag : MonoBehaviourPun
             {
                 Debug.Log("Unfreeze");
                 IsFrozen = false;
-                Grid.UpdateGrid(gameObject, false);
                 transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.white;
                 if (photonView.IsMine) transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = Color.blue;
             }
@@ -31,7 +30,6 @@ public class OnTag : MonoBehaviourPun
             Debug.Log("Freeze");
             IsFrozen = true;
             transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = Color.cyan;
-            Grid.UpdateGrid(gameObject, true);
         }
         
     }

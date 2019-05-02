@@ -18,8 +18,8 @@ namespace QPathFinder
     [System.Serializable]
     public class Node 
     {
-        public Node ( Vector3 pos ) { position = pos; }
-        public void SetPosition ( Vector3 pos ) { position = pos; }
+        public Node ( Vector3 pos ) { position = new Vector3(pos.x + 0.5f, pos.y - 0.5f, pos.z); }
+        public void SetPosition ( Vector3 pos ) { position = new Vector3(pos.x + 0.5f, pos.y - 0.5f, pos.z); }
         public Vector3 Position { get { return position; } }
 
         [SerializeField] private Vector3 position;

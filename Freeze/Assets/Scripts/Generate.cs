@@ -198,17 +198,24 @@ public class Generate : MonoBehaviour
 
     void BuildMap()
     {
-        PhotonNetwork.Instantiate("Block", new Vector2(-1, -1), Quaternion.identity);
-        PhotonNetwork.Instantiate("Block", new Vector2(size, -1), Quaternion.identity);
-        PhotonNetwork.Instantiate("Block", new Vector2(-1, size), Quaternion.identity);
-        PhotonNetwork.Instantiate("Block", new Vector2(size, size), Quaternion.identity);
-
+        GameObject tempBlock = PhotonNetwork.Instantiate("Block", new Vector2(-1, -1), Quaternion.identity);
+        tempBlock.transform.parent = transform;
+        tempBlock = PhotonNetwork.Instantiate("Block", new Vector2(size, -1), Quaternion.identity);
+        tempBlock.transform.parent = transform;
+        tempBlock = PhotonNetwork.Instantiate("Block", new Vector2(-1, size), Quaternion.identity);
+        tempBlock.transform.parent = transform;
+        tempBlock = PhotonNetwork.Instantiate("Block", new Vector2(size, size), Quaternion.identity);
+        tempBlock.transform.parent = transform;
         for (int i = 0; i < size; i++)
         {
-            PhotonNetwork.Instantiate("Block", new Vector2(-1, i), Quaternion.identity);
-            PhotonNetwork.Instantiate("Block", new Vector2(size, i), Quaternion.identity);
-            PhotonNetwork.Instantiate("Block", new Vector2(i, -1), Quaternion.identity);
-            PhotonNetwork.Instantiate("Block", new Vector2(i, size), Quaternion.identity);
+            tempBlock = PhotonNetwork.Instantiate("Block", new Vector2(-1, i), Quaternion.identity);
+            tempBlock.transform.parent = transform;
+            tempBlock = PhotonNetwork.Instantiate("Block", new Vector2(size, i), Quaternion.identity);
+            tempBlock.transform.parent = transform;
+            tempBlock = PhotonNetwork.Instantiate("Block", new Vector2(i, -1), Quaternion.identity);
+            tempBlock.transform.parent = transform;
+            tempBlock = PhotonNetwork.Instantiate("Block", new Vector2(i, size), Quaternion.identity);
+            tempBlock.transform.parent = transform;
 
             for ( int j = 0; j < size; j++)
             {
@@ -275,10 +282,6 @@ public class Generate : MonoBehaviour
                 {
                     temp.tag = "Path";
                     AddNode(temp.transform.position);
-                    foreach ()
-                    {
-
-                    }
 
                 }
                 else if (NumPathAdjacent(new Vector2Int(i, j)) == 4 )
@@ -288,6 +291,7 @@ public class Generate : MonoBehaviour
             }
         }
     }
+
     int NumPathAdjacent(Vector2Int pos)
     {
         int count = 0;

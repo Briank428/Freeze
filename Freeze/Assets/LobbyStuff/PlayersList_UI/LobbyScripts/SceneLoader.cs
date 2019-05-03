@@ -21,7 +21,8 @@ public class SceneLoader : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient && countDown)
+        if(Input.GetKeyDown(KeyCode.T))PhotonNetwork.LoadLevel(4);
+        if (PhotonNetwork.IsMasterClient && countDown) 
         {
             timeLeft -= Time.deltaTime;
             text.text = "Time Left: " + ((int)timeLeft).ToString();

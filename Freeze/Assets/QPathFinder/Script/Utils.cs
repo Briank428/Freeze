@@ -56,8 +56,8 @@ namespace QPathFinder
             }
             else if ( level == QPathFinder.Logger.Level.Errors )
             {
-				if ( m_logLevel <= level || isEditorMode )
-					Debug.LogError("[QPathFinder:Err] " + message);
+                if (m_logLevel <= level || isEditorMode) 
+					Debug.Log("[QPathFinder:Err] " + message);
             }
         }
 
@@ -69,7 +69,7 @@ namespace QPathFinder
 		public static float DrawLineDuration { get; private set; }
 
 		private static bool IsRunningInEditorMode { get { return !Application.isPlaying; }}
-        private static QPathFinder.Logger.Level m_logLevel = Level.Warnings ;
+        private static QPathFinder.Logger.Level m_logLevel = Level.None ;
         
 	}
 }

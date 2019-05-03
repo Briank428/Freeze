@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace QPathFinder
@@ -7,7 +8,6 @@ namespace QPathFinder
     public class MoveToPoint : MonoBehaviour
     {
         public GameObject playerObj;
-        public GameObject[] gameobjects;   // Needed for mouse click to world position convertion. 
 
         public float playerSpeed = 20.0f;
         public float playerFloatOffset;     // This is how high the player floats above the ground. 
@@ -19,32 +19,33 @@ namespace QPathFinder
 
 
         public QPathFinder.Logger.Level debugLogLevel;
-        public float debugDrawLineDuration;
+        public GameObject currentTarget;
 
 
         void Awake()
         {
             QPathFinder.Logger.SetLoggingLevel( debugLogLevel );
-            QPathFinder.Logger.SetDebugDrawLineDuration ( debugDrawLineDuration );
+            if (currentTarget == null)
+            {
+                Debug.Log("new target");
+                FindNewTarget();
+            }
         }
         void Update () 
         {
             
-
         }
 
-        void OnGUI()
+        void FindNewTarget()
         {
-            if ( gameobjects != null )
+            OnTag[] players = FindObjectsOfType<OnTag>().Where<OnTag>(p => !p.IsFrozen).ToArray<OnTag>();
+            int distance = Int32.MaxValue;
+            foreach (OnTag p in players)
             {
-                int y = 0;
-                foreach ( var go in gameobjects )
+                if(Math.Abs(p.transform.position.x - transform.position.x) + Math.Abs(p.transform.position.y - transform.position.y) < distance)
                 {
-                    if ( GUI.Button ( new Rect ( Screen.width - 150, y*30, 150, 30), go.name ))
-                    {
-                        MoveTo( go.transform.position );
-                    }
-                    y++;
+                    currentTarget = p.gameObject;
+                    MoveTo(p.transform.position);
                 }
             }
         }
@@ -54,10 +55,10 @@ namespace QPathFinder
             {
                 PathFinder.instance.FindShortestPathOfPoints( playerObj.transform.position, position,  PathFinder.instance.graphData.lineType, 
                     Execution.Asynchronously,
-                    SearchMode.Simple,
+                    SearchMode.Simple, 
                     delegate ( List<Vector3> points ) 
                     { 
-                        PathFollowerUtility.StopFollowing( playerObj.transform );
+                        //PathFollowerUtility.StopFollowing( playerObj.transform );
                         if ( useGroundSnap )
                         {
                            FollowThePathWithGroundSnap ( points );

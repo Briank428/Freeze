@@ -83,7 +83,7 @@ public class TutorialManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         GameObject ai = Instantiate(aiPrefab);
-        ai.GetComponent<AIMove>().enabled = false;
+ 
         top.text = "This is IT. He attempts tries to tag you and your friends before time runs out";
         bottom.text = "Press Space To Continue";
 

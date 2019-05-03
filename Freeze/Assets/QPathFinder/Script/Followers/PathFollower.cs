@@ -52,6 +52,7 @@ namespace QPathFinder
             }
 
             if ( QPathFinder.Logger.CanLogInfo ) QPathFinder.Logger.LogInfo ("PathFollower completed!");
+            GetComponent<MoveToPoint>().currentTarget = null;
         }
 
         public virtual void MoveTo(int pointIndex)

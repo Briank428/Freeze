@@ -393,7 +393,7 @@ namespace QPathFinder
 			var pathFollower = transform.GetComponent<PathFollower>();
 			if (pathFollower != null) 
 			{ 
-				pathFollower.StopFollowing(); GameObject.DestroyImmediate(pathFollower); 
+				pathFollower.StopFollowing(); //GameObject.DestroyImmediate(pathFollower); 
 				if ( QPathFinder.Logger.CanLogInfo ) QPathFinder.Logger.LogInfo ("PathFollower stopped and its Script is destroyed!");
 			}
 		}

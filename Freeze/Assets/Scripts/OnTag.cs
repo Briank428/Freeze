@@ -21,6 +21,7 @@ public class OnTag : MonoBehaviourPun
             {
                 Debug.Log("Unfreeze");
                 IsFrozen = false;
+                GetComponent<PlayerMove>().enabled = true;
                 transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.white;
                 if (photonView.IsMine) transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = Color.blue;
             }
@@ -29,14 +30,10 @@ public class OnTag : MonoBehaviourPun
         {
             Debug.Log("Freeze");
             IsFrozen = true;
+            GetComponent<PlayerMove>().enabled = false;
             transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = Color.cyan;
         }
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

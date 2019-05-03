@@ -31,7 +31,8 @@ public class GameManager : MonoBehaviour
 
         player = PhotonNetwork.Instantiate("Players/Player",new Vector2(playerLoc.x + .5f,playerLoc.y -.5f),Quaternion.identity) as GameObject;
         if (player.GetPhotonView().IsMine) player.transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = Color.blue;
-        if (PhotonNetwork.IsMasterClient) { GameObject tempAI = PhotonNetwork.Instantiate("Players/AI",new Vector2(aiLoc.x - 0.5f,aiLoc.y + 0.5f) , Quaternion.identity); }
+        yield return new WaitForSeconds(1f);
+        if (PhotonNetwork.IsMasterClient) { GameObject tempAI = PhotonNetwork.Instantiate("Players/AI",new Vector2(aiLoc.x + 0.5f,aiLoc.y - 0.5f) , Quaternion.identity); }
         Debug.Log("Player and AI instantiated");
         begin = true;
         yield return null;
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
             timeLeft -= Time.deltaTime;
             if (timeLeft < 0 || AllRunnersFrozen())
             {
-                EndGame();
+                //EndGame();
             }
         }
     }
